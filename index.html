@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>DanzXMusic</title>
+<meta name="description" content="DanzXMusic — pemutar musik web dengan tampilan kaca iOS, bisa diinstal dan jalan di latar belakang.">
+<meta name="theme-color" content="#07070c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="DanzXMusic">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/favicon.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+<div class="ambient" aria-hidden="true"><i></i><i></i><i></i></div>
+
+<div class="app" id="app">
+  <header class="top">
+    <h1 class="brand"><span class="logo" aria-hidden="true">♪</span><span>Danz<b>X</b>Music</span></h1>
+    <button class="glass icon-btn" id="installBtn" hidden aria-label="Pasang aplikasi">Pasang</button>
+  </header>
+
+  <aside class="glass ios-tip" id="iosTip" hidden>
+    <p><b>Pasang di iPhone:</b> ketuk tombol Bagikan <span aria-hidden="true">⬆︎</span> di Safari, lalu <b>Tambah ke Layar Utama</b>.</p>
+    <button class="x" id="iosTipClose" aria-label="Tutup">✕</button>
+  </aside>
+
+  <main class="views">
+    <section class="view on" id="v-home" aria-label="Beranda">
+      <h2 class="h">Beranda</h2>
+      <div class="chips" id="chips" role="tablist"></div>
+      <div class="list" id="homeList" aria-live="polite"></div>
+    </section>
+
+    <section class="view" id="v-search" aria-label="Cari">
+      <h2 class="h">Cari</h2>
+      <form class="glass search" id="searchForm" role="search">
+        <input id="q" type="search" placeholder="Lagu, artis, genre…" autocomplete="off" enterkeyhint="search" aria-label="Cari musik">
+        <button type="submit" aria-label="Cari">Cari</button>
+      </form>
+      <div class="list" id="searchList" aria-live="polite"><p class="empty">Ketik sesuatu untuk mencari lagu gratis.</p></div>
+    </section>
+
+    <section class="view" id="v-lib" aria-label="Pustaka">
+      <h2 class="h">Pustaka</h2>
+      <div class="seg glass" role="tablist">
+        <button class="on" data-lib="fav" role="tab">Favorit</button>
+        <button data-lib="local" role="tab">File saya</button>
+      </div>
+      <label class="glass add" id="addWrap" hidden>
+        <input type="file" id="files" accept="audio/*" multiple hidden>
+        <span>＋ Tambah lagu dari perangkat</span>
+      </label>
+      <div class="list" id="libList"></div>
+    </section>
+  </main>
+
+  <!-- Mini player -->
+  <div class="glass mini" id="mini" hidden>
+    <button class="mini-main" id="miniOpen" aria-label="Buka pemutar">
+      <img id="miniArt" alt="" width="44" height="44">
+      <span class="mt"><b id="miniTitle">—</b><small id="miniArtist">—</small></span>
+    </button>
+    <button class="ctl" id="miniPlay" aria-label="Putar atau jeda">▶</button>
+    <button class="ctl" id="miniNext" aria-label="Lagu berikutnya">⏭</button>
+    <div class="mini-bar"><i id="miniFill"></i></div>
+  </div>
+
+  <nav class="glass tabbar" aria-label="Menu utama">
+    <button class="on" data-view="home"><span aria-hidden="true">⌂</span>Beranda</button>
+    <button data-view="search"><span aria-hidden="true">⌕</span>Cari</button>
+    <button data-view="lib"><span aria-hidden="true">▤</span>Pustaka</button>
+  </nav>
+</div>
+
+<!-- Full player -->
+<div class="sheet" id="sheet" hidden aria-hidden="true" role="dialog" aria-label="Sedang diputar">
+  <div class="sheet-bg" id="sheetBg"></div>
+  <div class="sheet-in">
+    <button class="grab" id="sheetClose" aria-label="Tutup pemutar"><i></i></button>
+    <img class="cover" id="cover" alt="" width="640" height="640">
+    <div class="meta"><div class="mtxt"><h3 id="npTitle">—</h3><p id="npArtist">—</p></div>
+      <button class="heart" id="heart" aria-pressed="false" aria-label="Favorit">♡</button></div>
+    <div class="seek">
+      <input type="range" id="seek" min="0" max="1000" value="0" aria-label="Posisi lagu">
+      <div class="times"><span id="tCur">0:00</span><span id="tDur">0:00</span></div>
+    </div>
+    <div class="ctrls">
+      <button class="ctl sm" id="shuf" aria-pressed="false" aria-label="Acak">⤮</button>
+      <button class="ctl" id="prev" aria-label="Sebelumnya">⏮</button>
+      <button class="ctl big glass" id="play" aria-label="Putar atau jeda">▶</button>
+      <button class="ctl" id="next" aria-label="Berikutnya">⏭</button>
+      <button class="ctl sm" id="rep" aria-pressed="false" aria-label="Ulangi">⟲</button>
+    </div>
+    <div class="vol"><span aria-hidden="true">🔈</span><input type="range" id="vol" min="0" max="100" value="100" aria-label="Volume"><span aria-hidden="true">🔊</span></div>
+    <p class="src" id="npSrc"></p>
+  </div>
+</div>
+
+<div class="toast glass" id="toast" role="status" hidden></div>
+<audio id="audio" preload="metadata" playsinline></audio>
+<script src="assets/app.js"></script>
+</body>
+</html>
